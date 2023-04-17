@@ -1,0 +1,48 @@
+service: aws-reverse-proxy-example
+frameworkVersion: '3'
+
+useDotenv: true
+
+custom:
+  baseAppName: reverse-proxy-example
+  config: ${file(environments/${self:provider.region}/${opt:stage, self:provider.stage, 'poc'}.yml)}
+  deploymentBucket:
+    name: '${self:service}-deployments-${self:provider.region}-${aws:accountId}'
+    policy: { "Version": "2008-10-17", "Statement": [{"Effect": "Deny","Principal": "*","Action": "s3:*","Resource": ["arn:aws:s3:::${self:service}-deployments-${aws:region}-${aws:accountId}/*","arn:aws:s3:::${self:service}-deployments-${aws:region}-${aws:accountId}"],"Condition": {"Bool": {"aws:SecureTransport": "false"}}}]}
+    blockPublicAccess: true
+    skipPolicySetup: false
+    versioning: true
+    tags:
+      - Key: STAGE
+        Value: ${opt:stage, 'dev'}
+      - Key: 'test:moniker'
+        Value: ${self:custom.config.moniker}
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'poc'}
+  region: ${opt:region, 'us-east-1'}
+  cfnRole: arn:aws:iam::${aws:accountId}:role/AdskCfnAdministratorAccessExecutionRole
+  apiGateway:
+    description: 'Example Reverse Proxy API'
+    disableDefaultEndpoint: true
+#  logs:
+#    restApi:
+#      level: INFO
+#      role:
+#        - Ref: ApiGatewayLoggingRole
+#      accessLogging: false
+#      executionLogging: true
+#      fullExecutionData: true
+  tracing:
+    apiGateway: true
+    lambda: true
+
+resources:
+  - ${file(resources/endpoint-proxy-sage)}
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-domain-manager
+

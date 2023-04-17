@@ -1,0 +1,11 @@
+{
+  "name": "aws-reverse-proxy-example",
+  "version": "1.0.0",
+  "author": "indra.basak1@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "serverless-deployment-bucket": "^1.6.0",
+    "serverless-domain-manager": "^6.4.4"
+  }
+}

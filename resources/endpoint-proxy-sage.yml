@@ -1,0 +1,32 @@
+Resources:
+  ResourceSage:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: ApiGatewayRestApi
+      ParentId: !GetAtt ApiGatewayRestApi.RootResourceId
+      PathPart: 'sage'
+
+  ResourceSageProxy:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: ApiGatewayRestApi
+      ParentId:
+        Ref: ApiGatewayResourceTest
+      PathPart: '{proxy+}'
+
+  MethodSageAny:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ResourceId:
+        Ref: ResourceSageProxy
+      RestApiId:
+        Ref: ApiGatewayRestApi
+      HttpMethod: ANY
+      Integration:
+        Type: HTTP_PROXY
+        IntegrationHttpMethod: ANY
+#        Uri: !Join ['', ['https://', !Ref ProxyHost, '/{proxy}']]
+        Uri: !Sub '${self:custom.config.sageUrl}/{proxy}'
+
