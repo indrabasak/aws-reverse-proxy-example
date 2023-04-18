@@ -1,0 +1,8 @@
+Resources:
+  Deployment:
+    DependsOn:
+      - MethodSageAny
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId: !Ref ApiGatewayRestReverseProxyApi
+      StageName: ${opt:stage, 'poc'}

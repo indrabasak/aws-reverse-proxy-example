@@ -2,4 +2,5 @@ Resources:
   ApiGatewayRestReverseProxyApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
-      Name: ApiGatewayRestReverseProxyApi
+      Name: reverse-proxy-example
+      Description: 'Example Reverse Proxy API'
