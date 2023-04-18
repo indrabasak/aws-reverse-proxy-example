@@ -1,0 +1,5 @@
+Resources:
+  ApiGatewayRestReverseProxyApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: ApiGatewayRestReverseProxyApi

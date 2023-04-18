@@ -14,7 +14,7 @@ custom:
     versioning: true
     tags:
       - Key: STAGE
-        Value: ${opt:stage, 'dev'}
+        Value: ${opt:stage, 'poc'}
       - Key: 'test:moniker'
         Value: ${self:custom.config.moniker}
 
@@ -26,7 +26,6 @@ provider:
   cfnRole: arn:aws:iam::${aws:accountId}:role/AdskCfnAdministratorAccessExecutionRole
   apiGateway:
     description: 'Example Reverse Proxy API'
-    disableDefaultEndpoint: true
 #  logs:
 #    restApi:
 #      level: INFO
@@ -38,11 +37,15 @@ provider:
   tracing:
     apiGateway: true
     lambda: true
+  environment:
+    RestApiId:
+      Ref: HttpApi
 
 resources:
-  - ${file(resources/endpoint-proxy-sage)}
+  - ${file(resources/api-gateway.yml)}
+  - ${file(resources/endpoint-proxy-sage.yml)}
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-domain-manager
+
 
