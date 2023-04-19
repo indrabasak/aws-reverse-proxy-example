@@ -24,8 +24,9 @@ provider:
   stage: ${opt:stage, 'poc'}
   region: ${opt:region, 'us-east-1'}
   cfnRole: arn:aws:iam::${aws:accountId}:role/AdskCfnAdministratorAccessExecutionRole
-  apiGateway:
-    description: 'Example Reverse Proxy API'
+#  endpointType: regional
+#  apiGateway:
+#    description: 'Example Reverse Proxy API'
 #  logs:
 #    restApi:
 #      level: INFO

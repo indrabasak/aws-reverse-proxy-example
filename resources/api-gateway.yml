@@ -2,5 +2,8 @@ Resources:
   ApiGatewayRestReverseProxyApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
-      Name: reverse-proxy-example
+      Name: ${opt:stage, 'poc'}-reverse-proxy-example
       Description: 'Example Reverse Proxy API'
+      EndpointConfiguration:
+        Types:
+          - REGIONAL

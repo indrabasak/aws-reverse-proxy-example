@@ -27,6 +27,10 @@ Resources:
       AuthorizationType: NONE
       RequestParameters:
         method.request.path.proxy: true
+      MethodResponses:
+        - StatusCode: 200
+#          ResponseParameters:
+#            method.response.header.Content-Type: true
       Integration:
         CacheKeyParameters:
           - 'method.request.path.proxy'
@@ -35,4 +39,7 @@ Resources:
         Type: HTTP_PROXY
         IntegrationHttpMethod: ANY
         Uri: !Join ['', ['${self:custom.config.sageUrl}', '/sage/v1', '/{proxy}']]
+        IntegrationResponses:
+          - StatusCode: 200
+
 
